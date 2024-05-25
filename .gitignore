@@ -127,3 +127,6 @@ dist
 .pnp.*
 
 CID
+
+public
+mysql

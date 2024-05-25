@@ -1,0 +1,42 @@
+version: '3.8'
+
+name: docker-demo
+
+services:
+  web:
+    image: docker-demo-express:v1
+    ports:
+      - '80:3000'
+    volumes:
+      - ./public:/app/public
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    networks:
+      - docker_demo_network
+
+  db:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my_db
+      MYSQL_PASSWORD: root
+    volumes:
+      - ./mysql:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+    networks:
+      - docker_demo_network
+
+networks:
+  docker_demo_network:
+    driver: bridge

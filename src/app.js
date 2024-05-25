@@ -12,10 +12,12 @@ app.get('/db', async (req, res) => {
   try {
     conn = await db.getConnection();
     rs = await conn.query('SELECT table_name FROM information_schema.tables');
+    rs = rs.map((e) => e.table_name);
   } finally {
     if (conn) conn.release();
   }
-  res.send(JSON.stringify(rs));
+  res.json(Array.isArray(rs) ? rs.slice(0, 10) : null);
+  console.debug(Date.now());
 });
 
 app.listen(3000, () => {
