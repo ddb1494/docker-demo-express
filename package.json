@@ -5,14 +5,19 @@
   "main": "src/app.js",
   "scripts": {
     "dev": "node app.js",
-    "build": "docker build -t docker-demo--express:v-1 .",
-    "docker-run": "docker run -d -p 3000:3000 docker-demo--express:v-1 >> CID",
+    "build": "docker build . -t docker-demo--express:v1",
+    "docker-run": "docker run --name dde --network dden -d -p 3000:3000 docker-demo--express:v1 >> CID",
     "docker-ps": "docker ps",
     "docker-rm": "bash utils/rm.sh",
-    "docker-rmi": "docker rmi docker-demo--express:v-1"
+    "docker-rmi": "docker rmi docker-demo--express:v1",
+    "net-ls": "docker network ls",
+    "net-create": "docker network create dden",
+    "net-remove": "docker network remove dden",
+    "net-db": "docker run --name mdb --network dden -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=my_db -d mariadb:latest"
   },
   "license": "ISC",
   "dependencies": {
-    "express": ""
+    "express": "",
+    "mariadb": "^3.3.0"
   }
 }
